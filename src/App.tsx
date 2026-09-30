@@ -38,7 +38,7 @@ const App = () => {
                 isActive ? "nav-link active" : "nav-link"
               }
             >
-              Home
+              Pokédex
             </NavLink>
             <NavLink
               to="/favorites"
@@ -46,7 +46,7 @@ const App = () => {
                 isActive ? "nav-link active" : "nav-link"
               }
             >
-              Favorieten
+              My favorites
             </NavLink>
           </nav>
         )}
