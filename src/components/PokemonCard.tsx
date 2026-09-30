@@ -4,11 +4,21 @@ interface PokemonCardType {
   name: string;
   pokedex: number;
   image: string;
+  handleShowDetails: (e: string) => void;
 }
 
-const PokemonCard = ({ name, pokedex, image }: PokemonCardType) => {
+const PokemonCard = ({
+  name,
+  pokedex,
+  image,
+  handleShowDetails,
+}: PokemonCardType) => {
   return (
-    <div className="pokemon_card">
+    <div
+      id={name}
+      className="pokemon_card"
+      onClick={(e) => handleShowDetails(e.currentTarget.id)}
+    >
       <img src={image} alt={name} loading="lazy" />
 
       <article>

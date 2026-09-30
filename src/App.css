@@ -2,6 +2,7 @@
   height: 100vh;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 main {
@@ -60,4 +61,78 @@ main {
 .pokemon_card article {
   padding: 1rem 1.5rem;
   border-top: 1px solid black;
+}
+
+.pokemon_details {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.pokemon_details > div {
+  position: relative;
+  margin: 5% 15% 7.5%;
+  background-color: white;
+  border: 1px solid black;
+}
+
+.pokemon_details header {
+  display: flex;
+  padding: 0.5rem 1rem;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+}
+
+.pokemon_details_description {
+  display: flex;
+  gap: 6rem;
+  align-items: center;
+  padding: 1rem 2rem;
+}
+
+.pokemon_details_description img {
+  width: 25%;
+}
+
+.pokemon_details_description > div > *:not(:last-child) {
+  margin-bottom: 1rem;
+}
+
+.pokemon_details_types {
+  display: flex;
+  gap: 1rem;
+}
+
+.pokemon_details_types button {
+  background-color: red;
+}
+
+.pokemon_details_stats {
+  display: flex;
+  gap: 4rem;
+  padding: 1rem 2rem 2rem;
+}
+
+.pokemon_details_stats > * {
+  width: 50%;
+}
+
+.pokemon_details_base_stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.pokemon_details_base_stats div {
+  display: flex;
+  align-items: center;
+  gap: 3;
+}
+
+.pokemon_details_moves {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem 1.5rem;
+  margin-top: 1rem;
 }
