@@ -1,12 +1,13 @@
 .layout {
-  height: 100dvh;
+  height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
 main {
   display: flex;
-  height: 100%;
+  flex: 1;
+  min-height: 0;
 }
 
 .sidebar {
@@ -34,4 +35,29 @@ main {
 
 .nav-link:hover {
   background-color: darkgrey;
+}
+
+.pokemon_list {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2.5rem;
+  padding: 3.5rem 3rem;
+  overflow: scroll;
+}
+
+.pokemon_card {
+  border: 1px solid black;
+  box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+}
+
+.pokemon_card img {
+  width: 100%;
+  padding: 2rem;
+}
+
+.pokemon_card article {
+  padding: 1rem 1.5rem;
+  border-top: 1px solid black;
 }

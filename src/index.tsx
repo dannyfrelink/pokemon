@@ -2,11 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import { CssBaseline } from "@mui/material";
+
+const queryClient = new QueryClient();
 
 const router = createBrowserRouter([
   {
@@ -30,8 +33,10 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <CssBaseline />
-    <RouterProvider router={router} />
+    <QueryClientProvider client={queryClient}>
+      <CssBaseline />
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   </React.StrictMode>
 );
 
