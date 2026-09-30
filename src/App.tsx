@@ -1,26 +1,60 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { AppBar, IconButton, Toolbar, Typography } from "@mui/material";
+import MenuIcon from "@mui/icons-material/Menu";
+import "./App.css";
+import { useState } from "react";
+import { NavLink, Outlet } from "react-router-dom";
 
-function App() {
+const App = () => {
+  const [sidebar, setSidebar] = useState<boolean>(true);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="layout">
+      {/* Top bar navigation */}
+      <AppBar position="static" sx={{ backgroundColor: "darkred" }}>
+        <Toolbar>
+          <IconButton
+            size="large"
+            edge="start"
+            color="inherit"
+            aria-label="menu"
+            sx={{ mr: 2 }}
+            onClick={() => setSidebar(!sidebar)}
+          >
+            <MenuIcon />
+          </IconButton>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            News
+          </Typography>
+        </Toolbar>
+      </AppBar>
+
+      <main>
+        {/* Sidebar Navigation */}
+        {sidebar && (
+          <nav className="sidebar">
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
+              Home
+            </NavLink>
+            <NavLink
+              to="/favorites"
+              className={({ isActive }) =>
+                isActive ? "nav-link active" : "nav-link"
+              }
+            >
+              Favorieten
+            </NavLink>
+          </nav>
+        )}
+
+        <Outlet />
+      </main>
     </div>
   );
-}
+};
 
 export default App;
