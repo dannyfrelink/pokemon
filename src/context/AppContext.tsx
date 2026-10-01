@@ -18,6 +18,8 @@ interface AppContextType {
   ) => void;
   details: PokemonInfoType | null;
   setDetails: Dispatch<SetStateAction<PokemonInfoType | null>>;
+  snackbarMessage: string;
+  setSnackbarMessage: Dispatch<SetStateAction<string>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -41,6 +43,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     return saved ? JSON.parse(saved) : [];
   });
   const [details, setDetails] = useState<PokemonInfoType | null>(null);
+  const [snackbarMessage, setSnackbarMessage] = useState<string>("");
 
   const toggleFavorite = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -54,8 +57,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       );
 
       if (alreadyFavorited) {
+        setSnackbarMessage(
+          `${pokemon.name.toUpperCase()} has been removed from your favorites.`
+        );
         return prevFavorites.filter((prev) => prev.name !== pokemon.name);
       } else {
+        setSnackbarMessage(
+          `${pokemon.name.toUpperCase()} has been added to your favorites.`
+        );
         return [...prevFavorites, pokemon];
       }
     });
@@ -70,6 +79,8 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
         toggleFavorite,
         details,
         setDetails,
+        snackbarMessage,
+        setSnackbarMessage,
       }}
     >
       {children}

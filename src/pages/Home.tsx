@@ -7,14 +7,16 @@ import "slick-carousel/slick/slick-theme.css";
 import { useAppContext } from "../context/AppContext";
 import PokemonDetails from "../components/PokemonDetails";
 import SearchBar from "../components/SearchBar";
-import { Box, Pagination } from "@mui/material";
+import { Box, IconButton, Pagination, Snackbar } from "@mui/material";
+import { Close } from "@mui/icons-material";
 
 const Home = () => {
   const [page, setPage] = useState<number>(() => {
     const savedPage = localStorage.getItem("page");
     return savedPage ? JSON.parse(savedPage) : 1;
   });
-  const { searchResult, details } = useAppContext();
+  const { searchResult, details, snackbarMessage, setSnackbarMessage } =
+    useAppContext();
 
   const { data } = useQuery({
     queryKey: ["pokemonList", page],
@@ -57,6 +59,23 @@ const Home = () => {
       </div>
 
       {details && <PokemonDetails />}
+
+      <Snackbar
+        open={snackbarMessage !== ""}
+        autoHideDuration={2000}
+        onClose={() => setSnackbarMessage("")}
+        message={snackbarMessage}
+        action={
+          <IconButton
+            size="small"
+            aria-label="close"
+            color="inherit"
+            onClick={() => setSnackbarMessage("")}
+          >
+            <Close fontSize="small" />
+          </IconButton>
+        }
+      />
     </>
   );
 };
