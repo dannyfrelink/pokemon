@@ -10,10 +10,6 @@ interface PokemonCardType {
 const PokemonCard = ({ pokemon }: PokemonCardType) => {
   const { favorites, toggleFavorite, setDetails } = useAppContext();
 
-  useEffect(() => {
-    localStorage.setItem("favorites", JSON.stringify(favorites));
-  }, [favorites]);
-
   return (
     <div
       id={pokemon.name}
@@ -26,7 +22,7 @@ const PokemonCard = ({ pokemon }: PokemonCardType) => {
         aria-label="favorite"
         onClick={(e) => toggleFavorite(e, pokemon)}
       >
-        {favorites.find((favorite) => favorite.name === pokemon.name) ? (
+        {favorites.some((favorite) => favorite.name === pokemon.name) ? (
           <Favorite color="error" fontSize="large" />
         ) : (
           <FavoriteBorder color="error" fontSize="large" />

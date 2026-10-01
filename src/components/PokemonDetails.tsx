@@ -1,18 +1,34 @@
-import { Button, IconButton, Typography } from "@mui/material";
+import { Chip, IconButton, Typography } from "@mui/material";
 import { useAppContext } from "../context/AppContext";
 import { Clear, Favorite, FavoriteBorder } from "@mui/icons-material";
 import Slider from "react-slick";
 import BarChart from "./BarChart";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+
+interface StatsConfigsType {
+  [key: string]: {
+    label: string;
+    max: number;
+  };
+}
+
+const sliderSettings = {
+  dots: true,
+  infinite: true,
+  slidesToShow: 1,
+  slidesToScroll: 1,
+};
+
+const statsConfigs: StatsConfigsType = {
+  hp: { label: "HP", max: 200 },
+  attack: { label: "ATK", max: 150 },
+  defense: { label: "DEF", max: 200 },
+  speed: { label: "SPD", max: 150 },
+};
 
 const PokemonDetails = () => {
   const { favorites, toggleFavorite, details, setDetails } = useAppContext();
-
-  const sliderSettings = {
-    dots: true,
-    infinite: true,
-    slidesToShow: 1,
-    slidesToScroll: 1,
-  };
 
   return (
     <section className="pokemon_details">
@@ -93,14 +109,16 @@ const PokemonDetails = () => {
 
             <div className="pokemon_details_types">
               {details?.types.map((type) => (
-                <Button
+                <Chip
                   key={type.type.name}
-                  variant="contained"
-                  sx={{ pointerEvents: "none" }}
-                  tabIndex={-1}
-                >
-                  {type.type.name.toUpperCase()}
-                </Button>
+                  label={type.type.name.toUpperCase()}
+                  sx={{
+                    backgroundColor: "red",
+                    color: "white",
+                    height: "2.25rem",
+                    px: "0.5rem",
+                  }}
+                />
               ))}
             </div>
           </div>
@@ -117,43 +135,21 @@ const PokemonDetails = () => {
             </Typography>
 
             <div className="pokemon_details_base_stats">
-              {details?.stats.map((stat) => {
-                let name;
-                let maximumStat;
+              {details?.stats
+                .filter((stat) => stat.stat.name in statsConfigs)
+                .map((stat) => {
+                  const config = statsConfigs[stat.stat.name];
+                  const percentage = (stat.base_stat / config.max) * 100;
 
-                switch (stat.stat.name) {
-                  case "attack":
-                    name = "ATK";
-                    maximumStat = 150;
-                    break;
-                  case "defense":
-                    name = "DEF";
-                    maximumStat = 200;
-                    break;
-                  case "speed":
-                    name = "SPD";
-                    maximumStat = 150;
-                    break;
-                  case "hp":
-                    name = "HP";
-                    maximumStat = 200;
-                    break;
-                  default:
-                    return;
-                }
-
-                const percentage =
-                  maximumStat && (stat.base_stat / maximumStat) * 100;
-
-                return (
-                  <BarChart
-                    key={stat.stat.name}
-                    label={name}
-                    percentage={percentage}
-                    input={`${stat.base_stat} / ${maximumStat}`}
-                  />
-                );
-              })}
+                  return (
+                    <BarChart
+                      key={stat.stat.name}
+                      label={config.label}
+                      percentage={percentage}
+                      input={`${stat.base_stat} / ${config.max}`}
+                    />
+                  );
+                })}
             </div>
           </div>
 
@@ -167,19 +163,18 @@ const PokemonDetails = () => {
             </Typography>
 
             <div className="pokemon_details_moves">
-              {details?.moves.map(
-                (move, index) =>
-                  index < 15 && (
-                    <Button
-                      key={move.move.name}
-                      variant="contained"
-                      sx={{ pointerEvents: "none" }}
-                      tabIndex={-1}
-                    >
-                      {move.move.name}
-                    </Button>
-                  )
-              )}
+              {details?.moves.slice(0, 15).map((move, index) => (
+                <Chip
+                  key={move.move.name}
+                  label={move.move.name.toUpperCase()}
+                  sx={{
+                    backgroundColor: "blue",
+                    color: "white",
+                    fontWeight: 600,
+                    py: "1.1rem",
+                  }}
+                />
+              ))}
             </div>
           </div>
         </section>

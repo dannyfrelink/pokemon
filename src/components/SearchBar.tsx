@@ -6,7 +6,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 interface SearchBarType {
   handleSearch: (e: any, search: string) => void;
@@ -23,18 +23,20 @@ const SearchBar = ({
 }: SearchBarType) => {
   const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
+  const handleSearchChange = (value: string) => {
+    setSearchTerm(value);
+
     if (isError) {
       resetError();
     }
-  }, [searchTerm]);
+  };
 
   return (
     <section className="search_bar">
       <form onSubmit={(e) => handleSearch(e, searchTerm)}>
         <TextField
           value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          onChange={(e) => handleSearchChange(e.target.value)}
           placeholder="Search Pokémon by name or number"
           variant="outlined"
           size="small"

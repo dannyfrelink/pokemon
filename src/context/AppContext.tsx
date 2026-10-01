@@ -5,12 +5,12 @@ import {
   useContext,
   Dispatch,
   SetStateAction,
+  useEffect,
+  useMemo,
 } from "react";
 import { PokemonInfoType } from "../types/types";
 
 interface AppContextType {
-  searchResult: PokemonInfoType | null;
-  setSearchResult: Dispatch<SetStateAction<PokemonInfoType | null>>;
   favorites: PokemonInfoType[];
   toggleFavorite: (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -35,9 +35,6 @@ export const useAppContext = () => {
 };
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
-  const [searchResult, setSearchResult] = useState<PokemonInfoType | null>(
-    null
-  );
   const [favorites, setFavorites] = useState<PokemonInfoType[]>(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
@@ -70,20 +67,23 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     });
   };
 
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
+  const contextValues = useMemo(
+    () => ({
+      favorites,
+      toggleFavorite,
+      details,
+      setDetails,
+      snackbarMessage,
+      setSnackbarMessage,
+    }),
+    [favorites, details, snackbarMessage]
+  );
+
   return (
-    <AppContext.Provider
-      value={{
-        searchResult,
-        setSearchResult,
-        favorites,
-        toggleFavorite,
-        details,
-        setDetails,
-        snackbarMessage,
-        setSnackbarMessage,
-      }}
-    >
-      {children}
-    </AppContext.Provider>
+    <AppContext.Provider value={contextValues}>{children}</AppContext.Provider>
   );
 };

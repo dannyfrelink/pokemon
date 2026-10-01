@@ -1,9 +1,7 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import fetchPokemonList from "../helper/fetchPokemonList";
 import PokemonCard from "../components/PokemonCard";
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import { useAppContext } from "../context/AppContext";
 import PokemonDetails from "../components/PokemonDetails";
 import SearchBar from "../components/SearchBar";
@@ -16,16 +14,11 @@ const Home = () => {
     const savedPage = localStorage.getItem("page");
     return savedPage ? JSON.parse(savedPage) : 1;
   });
-  const {
-    searchResult,
-    setSearchResult,
-    details,
-    snackbarMessage,
-    setSnackbarMessage,
-  } = useAppContext();
+  const { details, snackbarMessage, setSnackbarMessage } = useAppContext();
 
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Fetching Searched Pokemon
   const {
     data: pokemonSearch,
     isError: isErrorSearch,
@@ -36,6 +29,15 @@ const Home = () => {
     enabled: !!searchQuery,
   });
 
+  const searchedPokemon = !isErrorSearch ? pokemonSearch : null;
+
+  // Fetching Pokemon List
+  const { data: pokemonList } = useQuery({
+    queryKey: ["pokemonList", page],
+    queryFn: () => fetchPokemonList(page),
+    placeholderData: keepPreviousData,
+  });
+
   const handleSearch = (
     e: React.SubmitEvent<HTMLFormElement>,
     search: string
@@ -44,25 +46,9 @@ const Home = () => {
 
     setSearchQuery(search);
   };
-
-  useEffect(() => {
-    if (!isErrorSearch) {
-      setSearchResult(pokemonSearch);
-    }
-  }, [pokemonSearch]);
-
-  const { data: pokemonList } = useQuery({
-    queryKey: ["pokemonList", page],
-    queryFn: () => fetchPokemonList(page),
-    placeholderData: keepPreviousData,
-  });
-
-  useEffect(() => {
-    localStorage.setItem("page", JSON.stringify(page));
-  }, [page]);
-
   const handlePagination = (_: any, value: number) => {
     setPage(value);
+    localStorage.setItem("page", JSON.stringify(value));
   };
 
   return (
@@ -76,8 +62,8 @@ const Home = () => {
         />
 
         <section className="pokemon_list">
-          {searchResult ? (
-            <PokemonCard pokemon={searchResult} />
+          {searchedPokemon ? (
+            <PokemonCard pokemon={searchedPokemon} />
           ) : (
             pokemonList &&
             pokemonList.map((pokemon) => (

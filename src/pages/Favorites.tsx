@@ -4,7 +4,7 @@ import PokemonDetails from "../components/PokemonDetails";
 import { useAppContext } from "../context/AppContext";
 import { Close } from "@mui/icons-material";
 import SearchBar from "../components/SearchBar";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { PokemonInfoType } from "../types/types";
 
 const Favorites = () => {
@@ -32,6 +32,10 @@ const Favorites = () => {
     }
   };
 
+  const sortedFavorites = useMemo(() => {
+    return [...favorites].sort((a, b) => a.id - b.id);
+  }, [favorites]);
+
   return (
     <>
       <div className="pokemon_content">
@@ -45,11 +49,9 @@ const Favorites = () => {
           {favoritesSearch ? (
             <PokemonCard pokemon={favoritesSearch} />
           ) : (
-            favorites
-              .sort((a, b) => a.id - b.id)
-              .map((favorite) => (
-                <PokemonCard key={favorite.name} pokemon={favorite} />
-              ))
+            sortedFavorites.map((favorite) => (
+              <PokemonCard key={favorite.name} pokemon={favorite} />
+            ))
           )}
         </section>
       </div>

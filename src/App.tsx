@@ -28,7 +28,7 @@ const App = () => {
         </Toolbar>
       </AppBar>
 
-      <main>
+      <div className="app_container">
         {/* Sidebar Navigation */}
         {sidebar && (
           <nav className="sidebar">
@@ -51,8 +51,10 @@ const App = () => {
           </nav>
         )}
 
-        <Outlet />
-      </main>
+        <main>
+          <Outlet />
+        </main>
+      </div>
     </div>
   );
 };

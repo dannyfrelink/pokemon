@@ -5,7 +5,7 @@
   position: relative;
 }
 
-main {
+.app_container {
   display: flex;
   flex: 1;
   min-height: 0;
@@ -38,14 +38,17 @@ main {
   background-color: darkgrey;
 }
 
-.pokemon_content {
+main {
   flex: 1;
   overflow: scroll;
-  padding-bottom: 2rem;
 }
 
-.pokemon_content::-webkit-scrollbar {
+main::-webkit-scrollbar {
   display: none;
+}
+
+.pokemon_content {
+  padding-bottom: 2rem;
 }
 
 .search_bar {
