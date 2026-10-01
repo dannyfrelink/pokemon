@@ -1,6 +1,5 @@
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { IconButton, Typography } from "@mui/material";
-import { useEffect } from "react";
 import { PokemonInfoType } from "../types/types";
 import { useAppContext } from "../context/AppContext";
 
