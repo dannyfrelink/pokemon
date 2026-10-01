@@ -11,9 +11,11 @@ const Favorites = () => {
   return (
     <>
       <section className="pokemon_list">
-        {favorites.map((favorite) => (
-          <PokemonCard key={favorite.name} pokemon={favorite} />
-        ))}
+        {favorites
+          .sort((a, b) => a.id - b.id)
+          .map((favorite) => (
+            <PokemonCard key={favorite.name} pokemon={favorite} />
+          ))}
       </section>
 
       {details && <PokemonDetails />}
