@@ -7,7 +7,7 @@ interface PokemonListItemType {
 
 const fetchPokemonList = async (page: number) => {
   try {
-    const offset = page * pageSize;
+    const offset = (page - 1) * pageSize;
 
     // Fetch pokemon list
     const pokemonListRes = await fetch(

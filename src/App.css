@@ -41,6 +41,7 @@ main {
 .pokemon_content {
   flex: 1;
   overflow: scroll;
+  padding-bottom: 3.5rem;
 }
 
 .pokemon_content::-webkit-scrollbar {
