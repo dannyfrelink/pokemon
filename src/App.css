@@ -48,9 +48,15 @@ main {
 }
 
 .pokemon_card {
+  position: relative;
   border: 1px solid black;
   box-shadow: 0 0.25rem 0.75rem rgba(0, 0, 0, 0.05);
   cursor: pointer;
+}
+
+.pokemon_card .favorite {
+  position: absolute;
+  right: 0;
 }
 
 .pokemon_card img {

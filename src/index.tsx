@@ -8,6 +8,7 @@ import reportWebVitals from "./reportWebVitals";
 import Home from "./pages/Home";
 import Favorites from "./pages/Favorites";
 import { CssBaseline } from "@mui/material";
+import { AppProvider } from "./context/AppContext";
 
 const queryClient = new QueryClient();
 
@@ -33,10 +34,12 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <CssBaseline />
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <AppProvider>
+      <QueryClientProvider client={queryClient}>
+        <CssBaseline />
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </AppProvider>
   </React.StrictMode>
 );
 

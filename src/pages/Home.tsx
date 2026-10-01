@@ -32,8 +32,6 @@ const Home = () => {
     slidesToScroll: 1,
   };
 
-  console.log(details?.sprites);
-
   return (
     <>
       <section className="pokemon_list">
@@ -41,9 +39,7 @@ const Home = () => {
           data.map((pokemon) => (
             <PokemonCard
               key={pokemon.name}
-              name={pokemon.name}
-              pokedex={pokemon.id}
-              image={pokemon.sprites.other["official-artwork"].front_default}
+              pokemon={pokemon}
               handleShowDetails={handleShowDetails}
             />
           ))}
@@ -73,7 +69,7 @@ const Home = () => {
 
               <IconButton
                 color="inherit"
-                aria-label="menu"
+                aria-label="close"
                 onClick={() => setDetails(null)}
               >
                 <Clear fontSize="large" />
@@ -100,11 +96,6 @@ const Home = () => {
                     )
                 )}
               </Slider>
-
-              {/* <img
-                src={details.sprites.other["official-artwork"].front_default}
-                alt=""
-              /> */}
 
               <div>
                 <Typography

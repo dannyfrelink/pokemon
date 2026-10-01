@@ -1,25 +1,44 @@
-import { Typography } from "@mui/material";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { IconButton, Typography } from "@mui/material";
+import { useEffect } from "react";
+import { PokemonInfoType } from "../types/types";
+import { useAppContext } from "../context/AppContext";
 
 interface PokemonCardType {
-  name: string;
-  pokedex: number;
-  image: string;
+  pokemon: PokemonInfoType;
   handleShowDetails: (e: string) => void;
 }
+const PokemonCard = ({ pokemon, handleShowDetails }: PokemonCardType) => {
+  const { favorites, toggleFavorite } = useAppContext();
 
-const PokemonCard = ({
-  name,
-  pokedex,
-  image,
-  handleShowDetails,
-}: PokemonCardType) => {
+  useEffect(() => {
+    localStorage.setItem("favorites", JSON.stringify(favorites));
+  }, [favorites]);
+
   return (
     <div
-      id={name}
+      id={pokemon.name}
       className="pokemon_card"
       onClick={(e) => handleShowDetails(e.currentTarget.id)}
     >
-      <img src={image} alt={name} loading="lazy" />
+      <IconButton
+        className="favorite"
+        color="inherit"
+        aria-label="favorite"
+        onClick={(e) => toggleFavorite(e, pokemon)}
+      >
+        {favorites.find((favorite) => favorite.name === pokemon.name) ? (
+          <Favorite color="error" fontSize="large" />
+        ) : (
+          <FavoriteBorder color="error" fontSize="large" />
+        )}
+      </IconButton>
+
+      <img
+        src={pokemon.sprites.other["official-artwork"].front_default}
+        alt={pokemon.name}
+        loading="lazy"
+      />
 
       <article>
         <Typography
@@ -27,11 +46,11 @@ const PokemonCard = ({
           component="div"
           sx={{ flexGrow: 1, fontWeight: 600, mb: "0.25rem" }}
         >
-          {name.toUpperCase()}
+          {pokemon.name.toUpperCase()}
         </Typography>
 
         <Typography variant="caption" component="div" sx={{ flexGrow: 1 }}>
-          Pokédex: {pokedex}
+          Pokédex: {pokemon.id}
         </Typography>
       </article>
     </div>
