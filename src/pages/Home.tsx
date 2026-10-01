@@ -5,6 +5,9 @@ import PokemonCard from "../components/PokemonCard";
 import { Button, IconButton, LinearProgress, Typography } from "@mui/material";
 import { PokemonInfoType } from "../types/types";
 import { Clear } from "@mui/icons-material";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
 const Home = () => {
   const [page, setPage] = useState<number>(0);
@@ -22,7 +25,14 @@ const Home = () => {
     setDetails(selectedPokemon);
   };
 
-  console.log(details);
+  const sliderSettings = {
+    dots: true,
+    infinite: true,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+  };
+
+  console.log(details?.sprites);
 
   return (
     <>
@@ -30,6 +40,7 @@ const Home = () => {
         {data &&
           data.map((pokemon) => (
             <PokemonCard
+              key={pokemon.name}
               name={pokemon.name}
               pokedex={pokemon.id}
               image={pokemon.sprites.other["official-artwork"].front_default}
@@ -70,10 +81,30 @@ const Home = () => {
             </header>
 
             <section className="pokemon_details_description">
-              <img
+              {/* Pokemon Image Carousel */}
+              <Slider className="pokemon_details_slider" {...sliderSettings}>
+                {Object.values(details.sprites.other["official-artwork"]).map(
+                  (image, index) =>
+                    typeof image === "string" && (
+                      <div key={index} className="pokemon_details_slider_item">
+                        <img
+                          src={image}
+                          alt={`${details.name} ${index}`}
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )
+                )}
+              </Slider>
+
+              {/* <img
                 src={details.sprites.other["official-artwork"].front_default}
                 alt=""
-              />
+              /> */}
 
               <div>
                 <Typography
