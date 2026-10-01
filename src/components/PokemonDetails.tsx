@@ -1,4 +1,10 @@
-import { Button, IconButton, LinearProgress, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  IconButton,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import { useAppContext } from "../context/AppContext";
 import { Clear } from "@mui/icons-material";
 import Slider from "react-slick";
@@ -108,25 +114,26 @@ const PokemonDetails = () => {
                 switch (stat.stat.name) {
                   case "attack":
                     name = "ATK";
-                    maximumStat = 1.5;
+                    maximumStat = 150;
                     break;
                   case "defense":
                     name = "DEF";
-                    maximumStat = 2;
+                    maximumStat = 200;
                     break;
                   case "speed":
                     name = "SPD";
-                    maximumStat = 1.5;
+                    maximumStat = 150;
                     break;
                   case "hp":
                     name = "HP";
-                    maximumStat = 2;
+                    maximumStat = 200;
                     break;
                   default:
                     return;
                 }
 
-                const percentage = maximumStat && stat.base_stat / maximumStat;
+                const percentage =
+                  maximumStat && (stat.base_stat / maximumStat) * 100;
 
                 return (
                   <div key={stat.stat.name}>
@@ -138,15 +145,45 @@ const PokemonDetails = () => {
                       {name}
                     </Typography>
 
-                    <LinearProgress
-                      variant="determinate"
-                      value={percentage}
+                    <Box
                       sx={{
-                        height: "2rem",
+                        position: "relative",
                         width: "90%",
-                        borderRadius: 1,
+                        display: "inline-flex",
+                        alignItems: "center",
                       }}
-                    />
+                    >
+                      <LinearProgress
+                        variant="determinate"
+                        value={percentage}
+                        sx={{
+                          height: "2rem",
+                          width: "100%",
+                          borderRadius: 1,
+                        }}
+                      />
+
+                      <Box
+                        sx={{
+                          top: 0,
+                          left: 0,
+                          bottom: 0,
+                          right: 0,
+                          position: "absolute",
+                          display: "flex",
+                          alignItems: "center",
+                          justifyContent: "center",
+                        }}
+                      >
+                        <Typography
+                          variant="body2"
+                          component="div"
+                          sx={{ fontWeight: "bold" }}
+                        >
+                          {`${stat.base_stat} / ${maximumStat}`}
+                        </Typography>
+                      </Box>
+                    </Box>
                   </div>
                 );
               })}
