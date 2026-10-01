@@ -6,11 +6,11 @@ import {
   Typography,
 } from "@mui/material";
 import { useAppContext } from "../context/AppContext";
-import { Clear } from "@mui/icons-material";
+import { Clear, Favorite, FavoriteBorder } from "@mui/icons-material";
 import Slider from "react-slick";
 
 const PokemonDetails = () => {
-  const { details, setDetails } = useAppContext();
+  const { favorites, toggleFavorite, details, setDetails } = useAppContext();
 
   const sliderSettings = {
     dots: true,
@@ -48,25 +48,40 @@ const PokemonDetails = () => {
 
         <section className="pokemon_details_description">
           {/* Pokemon Image Carousel */}
-          <Slider className="pokemon_details_slider" {...sliderSettings}>
-            {details &&
-              Object.values(details.sprites.other["official-artwork"]).map(
-                (image, index) =>
-                  typeof image === "string" && (
-                    <div key={index} className="pokemon_details_slider_item">
-                      <img
-                        src={image}
-                        alt={`${details?.name} ${index}`}
-                        style={{
-                          width: "100%",
-                          height: "auto",
-                          display: "block",
-                        }}
-                      />
-                    </div>
-                  )
+          <div className="pokemon_details_images">
+            <Slider className="pokemon_details_slider" {...sliderSettings}>
+              {details &&
+                Object.values(details.sprites.other["official-artwork"]).map(
+                  (image, index) =>
+                    typeof image === "string" && (
+                      <div key={index} className="pokemon_details_slider_item">
+                        <img
+                          src={image}
+                          alt={`${details?.name} ${index}`}
+                          style={{
+                            width: "100%",
+                            height: "auto",
+                            display: "block",
+                          }}
+                        />
+                      </div>
+                    )
+                )}
+            </Slider>
+
+            <IconButton
+              className="favorite"
+              color="inherit"
+              aria-label="favorite"
+              onClick={(e) => details && toggleFavorite(e, details)}
+            >
+              {favorites.find((favorite) => favorite.name === details?.name) ? (
+                <Favorite color="error" fontSize="large" />
+              ) : (
+                <FavoriteBorder color="error" fontSize="large" />
               )}
-          </Slider>
+            </IconButton>
+          </div>
 
           <div>
             <Typography
