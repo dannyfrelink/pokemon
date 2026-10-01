@@ -27,8 +27,6 @@ const Home = () => {
   }, [page]);
 
   const handlePagination = (_: any, value: number) => {
-    console.log("event: ", value);
-
     setPage(value);
   };
 
