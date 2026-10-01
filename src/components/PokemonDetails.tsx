@@ -1,13 +1,8 @@
-import {
-  Box,
-  Button,
-  IconButton,
-  LinearProgress,
-  Typography,
-} from "@mui/material";
+import { Button, IconButton, Typography } from "@mui/material";
 import { useAppContext } from "../context/AppContext";
 import { Clear, Favorite, FavoriteBorder } from "@mui/icons-material";
 import Slider from "react-slick";
+import BarChart from "./BarChart";
 
 const PokemonDetails = () => {
   const { favorites, toggleFavorite, details, setDetails } = useAppContext();
@@ -151,55 +146,12 @@ const PokemonDetails = () => {
                   maximumStat && (stat.base_stat / maximumStat) * 100;
 
                 return (
-                  <div key={stat.stat.name}>
-                    <Typography
-                      variant="body1"
-                      component="div"
-                      sx={{ flexGrow: 1, mr: "1rem" }}
-                    >
-                      {name}
-                    </Typography>
-
-                    <Box
-                      sx={{
-                        position: "relative",
-                        width: "90%",
-                        display: "inline-flex",
-                        alignItems: "center",
-                      }}
-                    >
-                      <LinearProgress
-                        variant="determinate"
-                        value={percentage}
-                        sx={{
-                          height: "2rem",
-                          width: "100%",
-                          borderRadius: 1,
-                        }}
-                      />
-
-                      <Box
-                        sx={{
-                          top: 0,
-                          left: 0,
-                          bottom: 0,
-                          right: 0,
-                          position: "absolute",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
-                      >
-                        <Typography
-                          variant="body2"
-                          component="div"
-                          sx={{ fontWeight: "bold" }}
-                        >
-                          {`${stat.base_stat} / ${maximumStat}`}
-                        </Typography>
-                      </Box>
-                    </Box>
-                  </div>
+                  <BarChart
+                    key={stat.stat.name}
+                    label={name}
+                    percentage={percentage}
+                    input={`${stat.base_stat} / ${maximumStat}`}
+                  />
                 );
               })}
             </div>
