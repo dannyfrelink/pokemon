@@ -1,4 +1,11 @@
-import { createContext, useState, ReactNode, useContext } from "react";
+import {
+  createContext,
+  useState,
+  ReactNode,
+  useContext,
+  Dispatch,
+  SetStateAction,
+} from "react";
 import { PokemonInfoType } from "../types/types";
 
 interface AppContextType {
@@ -7,6 +14,8 @@ interface AppContextType {
     e: React.MouseEvent<HTMLButtonElement>,
     pokemon: PokemonInfoType
   ) => void;
+  details: PokemonInfoType | null;
+  setDetails: Dispatch<SetStateAction<PokemonInfoType | null>>;
 }
 
 export const AppContext = createContext<AppContextType | undefined>(undefined);
@@ -26,6 +35,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
   });
+  const [details, setDetails] = useState<PokemonInfoType | null>(null);
 
   const toggleFavorite = (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -47,7 +57,9 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
   };
 
   return (
-    <AppContext.Provider value={{ favorites, toggleFavorite }}>
+    <AppContext.Provider
+      value={{ favorites, toggleFavorite, details, setDetails }}
+    >
       {children}
     </AppContext.Provider>
   );

@@ -6,10 +6,9 @@ import { useAppContext } from "../context/AppContext";
 
 interface PokemonCardType {
   pokemon: PokemonInfoType;
-  handleShowDetails: (e: string) => void;
 }
-const PokemonCard = ({ pokemon, handleShowDetails }: PokemonCardType) => {
-  const { favorites, toggleFavorite } = useAppContext();
+const PokemonCard = ({ pokemon }: PokemonCardType) => {
+  const { favorites, toggleFavorite, setDetails } = useAppContext();
 
   useEffect(() => {
     localStorage.setItem("favorites", JSON.stringify(favorites));
@@ -19,7 +18,7 @@ const PokemonCard = ({ pokemon, handleShowDetails }: PokemonCardType) => {
     <div
       id={pokemon.name}
       className="pokemon_card"
-      onClick={(e) => handleShowDetails(e.currentTarget.id)}
+      onClick={() => setDetails(pokemon)}
     >
       <IconButton
         className="favorite"
