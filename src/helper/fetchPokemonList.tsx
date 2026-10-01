@@ -48,9 +48,6 @@ const fetchPokemonList = async (page: number) => {
   } catch (error) {
     console.error("Could not fetch Pokemon data: ", error);
   }
-
-  //   const evolutionRes = await fetch(speciesData.evolution_chain.url);
-  //   const evolutionData = await evolutionRes.json();
 };
 
 export default fetchPokemonList;

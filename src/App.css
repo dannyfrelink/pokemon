@@ -38,6 +38,19 @@ main {
   background-color: darkgrey;
 }
 
+.pokemon_content {
+  flex: 1;
+  overflow: scroll;
+}
+
+.pokemon_content::-webkit-scrollbar {
+  display: none;
+}
+
+.search_bar {
+  margin: 3rem 3rem 0;
+}
+
 .pokemon_list {
   flex: 1;
   display: grid;
@@ -45,6 +58,10 @@ main {
   gap: 2.5rem;
   padding: 3.5rem 3rem;
   overflow: scroll;
+}
+
+.pokemon_list::-webkit-scrollbar {
+  display: none;
 }
 
 .pokemon_card {

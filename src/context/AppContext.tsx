@@ -9,6 +9,8 @@ import {
 import { PokemonInfoType } from "../types/types";
 
 interface AppContextType {
+  searchResult: PokemonInfoType | null;
+  setSearchResult: Dispatch<SetStateAction<PokemonInfoType | null>>;
   favorites: PokemonInfoType[];
   toggleFavorite: (
     e: React.MouseEvent<HTMLButtonElement>,
@@ -31,6 +33,9 @@ export const useAppContext = () => {
 };
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
+  const [searchResult, setSearchResult] = useState<PokemonInfoType | null>(
+    null
+  );
   const [favorites, setFavorites] = useState<PokemonInfoType[]>(() => {
     const saved = localStorage.getItem("favorites");
     return saved ? JSON.parse(saved) : [];
@@ -58,7 +63,14 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <AppContext.Provider
-      value={{ favorites, toggleFavorite, details, setDetails }}
+      value={{
+        searchResult,
+        setSearchResult,
+        favorites,
+        toggleFavorite,
+        details,
+        setDetails,
+      }}
     >
       {children}
     </AppContext.Provider>
