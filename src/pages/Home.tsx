@@ -9,16 +9,46 @@ import PokemonDetails from "../components/PokemonDetails";
 import SearchBar from "../components/SearchBar";
 import { Box, IconButton, Pagination, Snackbar } from "@mui/material";
 import { Close } from "@mui/icons-material";
+import fetchPokemonSearch from "../helper/fetchPokemonSearch";
 
 const Home = () => {
   const [page, setPage] = useState<number>(() => {
     const savedPage = localStorage.getItem("page");
     return savedPage ? JSON.parse(savedPage) : 1;
   });
-  const { searchResult, details, snackbarMessage, setSnackbarMessage } =
-    useAppContext();
+  const {
+    searchResult,
+    setSearchResult,
+    details,
+    snackbarMessage,
+    setSnackbarMessage,
+  } = useAppContext();
 
-  const { data } = useQuery({
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const {
+    data: pokemonSearch,
+    isError: isErrorSearch,
+    isLoading: isLoadingSearch,
+  } = useQuery({
+    queryKey: ["pokemon", searchQuery],
+    queryFn: () => fetchPokemonSearch(searchQuery),
+    enabled: !!searchQuery,
+  });
+
+  const handleSearch = (e: any, search: string) => {
+    e.preventDefault();
+
+    setSearchQuery(search);
+  };
+
+  useEffect(() => {
+    if (!isErrorSearch) {
+      setSearchResult(pokemonSearch);
+    }
+  }, [pokemonSearch]);
+
+  const { data: pokemonList } = useQuery({
     queryKey: ["pokemonList", page],
     queryFn: () => fetchPokemonList(page),
     placeholderData: keepPreviousData,
@@ -35,27 +65,34 @@ const Home = () => {
   return (
     <>
       <div className="pokemon_content">
-        <SearchBar />
+        <SearchBar
+          handleSearch={handleSearch}
+          isLoading={isLoadingSearch}
+          isError={isErrorSearch}
+          setSearchQuery={setSearchQuery}
+        />
 
         <section className="pokemon_list">
           {searchResult ? (
             <PokemonCard pokemon={searchResult} />
           ) : (
-            data &&
-            data.map((pokemon) => (
+            pokemonList &&
+            pokemonList.map((pokemon) => (
               <PokemonCard key={pokemon.name} pokemon={pokemon} />
             ))
           )}
         </section>
 
-        <Box sx={{ width: "100%" }}>
-          <Pagination
-            count={5}
-            page={page}
-            onChange={handlePagination}
-            sx={{ width: "fit-content", mx: "auto" }}
-          />
-        </Box>
+        {searchQuery === "" && (
+          <Box sx={{ width: "100%" }}>
+            <Pagination
+              count={5}
+              page={page}
+              onChange={handlePagination}
+              sx={{ width: "fit-content", mx: "auto" }}
+            />
+          </Box>
+        )}
       </div>
 
       {details && <PokemonDetails />}

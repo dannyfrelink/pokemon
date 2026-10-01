@@ -6,43 +6,32 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
-import fetchPokemonSearch from "../helper/fetchPokemonSearch";
-import { useAppContext } from "../context/AppContext";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-const SearchBar = () => {
-  const { setSearchResult } = useAppContext();
+interface SearchBarType {
+  handleSearch: (e: any, search: string) => void;
+  isLoading: boolean;
+  isError: boolean;
+  setSearchQuery?: Dispatch<SetStateAction<string>>;
+}
+
+const SearchBar = ({
+  handleSearch,
+  isLoading,
+  isError,
+  setSearchQuery,
+}: SearchBarType) => {
   const [searchTerm, setSearchTerm] = useState("");
-  const [searchQuery, setSearchQuery] = useState("");
-
-  const { data, isError, isLoading } = useQuery({
-    queryKey: ["pokemon", searchQuery],
-    queryFn: () => fetchPokemonSearch(searchQuery),
-    enabled: !!searchQuery,
-  });
-
-  const handleSearch = (e: any) => {
-    e.preventDefault();
-
-    setSearchQuery(searchTerm);
-  };
 
   useEffect(() => {
-    if (isError) {
+    if (isError && setSearchQuery) {
       setSearchQuery("");
     }
   }, [searchTerm]);
 
-  useEffect(() => {
-    if (!isError) {
-      setSearchResult(data);
-    }
-  }, [data]);
-
   return (
     <section className="search_bar">
-      <form onSubmit={handleSearch}>
+      <form onSubmit={(e) => handleSearch(e, searchTerm)}>
         <TextField
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}

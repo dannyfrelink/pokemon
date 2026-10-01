@@ -3,6 +3,7 @@ import PokemonCard from "../components/PokemonCard";
 import PokemonDetails from "../components/PokemonDetails";
 import { useAppContext } from "../context/AppContext";
 import { Close } from "@mui/icons-material";
+import SearchBar from "../components/SearchBar";
 
 const Favorites = () => {
   const { favorites, details, snackbarMessage, setSnackbarMessage } =
@@ -10,13 +11,15 @@ const Favorites = () => {
 
   return (
     <>
-      <section className="pokemon_list">
-        {favorites
-          .sort((a, b) => a.id - b.id)
-          .map((favorite) => (
-            <PokemonCard key={favorite.name} pokemon={favorite} />
-          ))}
-      </section>
+      <div className="pokemon_content">
+        <section className="pokemon_list">
+          {favorites
+            .sort((a, b) => a.id - b.id)
+            .map((favorite) => (
+              <PokemonCard key={favorite.name} pokemon={favorite} />
+            ))}
+        </section>
+      </div>
 
       {details && <PokemonDetails />}
 

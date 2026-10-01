@@ -41,7 +41,7 @@ main {
 .pokemon_content {
   flex: 1;
   overflow: scroll;
-  padding-bottom: 3.5rem;
+  padding-bottom: 2rem;
 }
 
 .pokemon_content::-webkit-scrollbar {
@@ -53,12 +53,10 @@ main {
 }
 
 .pokemon_list {
-  flex: 1;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 2.5rem;
-  padding: 3.5rem 3rem;
-  overflow: scroll;
+  padding: 3.5rem 3rem 2rem;
 }
 
 .pokemon_list::-webkit-scrollbar {
