@@ -1,5 +1,11 @@
 import { Search } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
+import {
+  CircularProgress,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@mui/material";
 import { useQuery } from "@tanstack/react-query";
 import { useEffect, useState } from "react";
 import fetchPokemonSearch from "../helper/fetchPokemonSearch";
@@ -10,7 +16,7 @@ const SearchBar = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data } = useQuery({
+  const { data, isError, isLoading } = useQuery({
     queryKey: ["pokemon", searchQuery],
     queryFn: () => fetchPokemonSearch(searchQuery),
     enabled: !!searchQuery,
@@ -23,7 +29,15 @@ const SearchBar = () => {
   };
 
   useEffect(() => {
-    setSearchResult(data);
+    if (isError) {
+      setSearchQuery("");
+    }
+  }, [searchTerm]);
+
+  useEffect(() => {
+    if (!isError) {
+      setSearchResult(data);
+    }
   }, [data]);
 
   return (
@@ -49,6 +63,28 @@ const SearchBar = () => {
           }}
         />
       </form>
+
+      {isLoading && (
+        <div>
+          <CircularProgress
+            size={"1.5rem"}
+            aria-label="loading"
+            sx={{ flexGrow: 1, mt: "0.5rem" }}
+          />
+        </div>
+      )}
+
+      {isError && (
+        <div>
+          <Typography
+            variant="body1"
+            component="div"
+            sx={{ flexGrow: 1, color: "red", mt: "0.5rem" }}
+          >
+            Pokemon {searchTerm} cannot be found.
+          </Typography>
+        </div>
+      )}
     </section>
   );
 };
