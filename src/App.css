@@ -132,7 +132,7 @@ main {
 .pokemon_details_stats {
   display: flex;
   gap: 4rem;
-  padding: 2rem;
+  padding: 1rem 2rem;
 }
 
 .pokemon_details_stats > * {
