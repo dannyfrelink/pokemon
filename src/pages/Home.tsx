@@ -36,7 +36,10 @@ const Home = () => {
     enabled: !!searchQuery,
   });
 
-  const handleSearch = (e: any, search: string) => {
+  const handleSearch = (
+    e: React.SubmitEvent<HTMLFormElement>,
+    search: string
+  ) => {
     e.preventDefault();
 
     setSearchQuery(search);
@@ -69,7 +72,7 @@ const Home = () => {
           handleSearch={handleSearch}
           isLoading={isLoadingSearch}
           isError={isErrorSearch}
-          setSearchQuery={setSearchQuery}
+          resetError={() => setSearchQuery("")}
         />
 
         <section className="pokemon_list">

@@ -4,20 +4,53 @@ import PokemonDetails from "../components/PokemonDetails";
 import { useAppContext } from "../context/AppContext";
 import { Close } from "@mui/icons-material";
 import SearchBar from "../components/SearchBar";
+import { useState } from "react";
+import { PokemonInfoType } from "../types/types";
 
 const Favorites = () => {
   const { favorites, details, snackbarMessage, setSnackbarMessage } =
     useAppContext();
+  const [favoritesSearch, setFavoritesSearch] =
+    useState<PokemonInfoType | null>();
+  const [isError, setIsError] = useState<boolean>(false);
+
+  const handleSearch = (
+    e: React.SubmitEvent<HTMLFormElement>,
+    search: string
+  ) => {
+    e.preventDefault();
+    const favoriteFound = favorites.find(
+      (favorite) =>
+        favorite.name === search || favorite.id.toString() === search
+    );
+
+    if (favoriteFound) {
+      setFavoritesSearch(favoriteFound);
+    } else {
+      setIsError(true);
+      setFavoritesSearch(null);
+    }
+  };
 
   return (
     <>
       <div className="pokemon_content">
+        <SearchBar
+          handleSearch={handleSearch}
+          isError={isError}
+          resetError={() => setIsError(false)}
+        />
+
         <section className="pokemon_list">
-          {favorites
-            .sort((a, b) => a.id - b.id)
-            .map((favorite) => (
-              <PokemonCard key={favorite.name} pokemon={favorite} />
-            ))}
+          {favoritesSearch ? (
+            <PokemonCard pokemon={favoritesSearch} />
+          ) : (
+            favorites
+              .sort((a, b) => a.id - b.id)
+              .map((favorite) => (
+                <PokemonCard key={favorite.name} pokemon={favorite} />
+              ))
+          )}
         </section>
       </div>
 

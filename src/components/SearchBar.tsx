@@ -6,26 +6,26 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface SearchBarType {
   handleSearch: (e: any, search: string) => void;
-  isLoading: boolean;
-  isError: boolean;
-  setSearchQuery?: Dispatch<SetStateAction<string>>;
+  isLoading?: boolean;
+  isError?: boolean;
+  resetError: () => void;
 }
 
 const SearchBar = ({
   handleSearch,
   isLoading,
   isError,
-  setSearchQuery,
+  resetError,
 }: SearchBarType) => {
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    if (isError && setSearchQuery) {
-      setSearchQuery("");
+    if (isError) {
+      resetError();
     }
   }, [searchTerm]);
 
@@ -70,7 +70,7 @@ const SearchBar = ({
             component="div"
             sx={{ flexGrow: 1, color: "red", mt: "0.5rem" }}
           >
-            Pokemon {searchTerm} cannot be found.
+            Pokemon {searchTerm.toUpperCase()} cannot be found.
           </Typography>
         </div>
       )}
