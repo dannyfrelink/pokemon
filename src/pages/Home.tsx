@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
-import fetchPokemonList from "../helper/fetchPokemonList";
+import fetchPokemonList from "../api/fetchPokemonList";
 import PokemonCard from "../components/PokemonCard";
 import { useAppContext } from "../context/AppContext";
 import PokemonDetails from "../components/PokemonDetails";
 import SearchBar from "../components/SearchBar";
 import { Box, IconButton, Pagination, Snackbar } from "@mui/material";
 import { Close } from "@mui/icons-material";
-import fetchPokemonSearch from "../helper/fetchPokemonSearch";
+import fetchPokemonSearch from "../api/fetchPokemonSearch";
 
 const Home = () => {
   const [page, setPage] = useState<number>(() => {
