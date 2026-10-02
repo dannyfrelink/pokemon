@@ -5,6 +5,7 @@ import Slider from "react-slick";
 import BarChart from "./BarChart";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import { loremIpsum } from "lorem-ipsum";
 
 interface StatsConfigsType {
   [key: string]: {
@@ -29,6 +30,8 @@ const statsConfigs: StatsConfigsType = {
 
 const PokemonDetails = () => {
   const { favorites, toggleFavorite, details, setDetails } = useAppContext();
+
+  console.log("details", details);
 
   return (
     <section className="pokemon_details">
@@ -104,7 +107,9 @@ const PokemonDetails = () => {
             </Typography>
 
             <Typography variant="body1" component="div" sx={{ flexGrow: 1 }}>
-              {details?.description}
+              {details?.description
+                ? details.description
+                : loremIpsum({ count: 6, units: "sentences" })}
             </Typography>
 
             <div className="pokemon_details_types">
