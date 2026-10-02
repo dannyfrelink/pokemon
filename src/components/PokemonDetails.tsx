@@ -6,7 +6,11 @@ import BarChart from "./BarChart";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { loremIpsum } from "lorem-ipsum";
-import { sliderSettings, statsConfigs } from "../config/pokemonConfig";
+import {
+  sliderSettings,
+  statsConfigs,
+  typeColorConfigs,
+} from "../config/pokemonConfig";
 
 const PokemonDetails = () => {
   const { favorites, toggleFavorite, details, setDetails } = useAppContext();
@@ -91,18 +95,26 @@ const PokemonDetails = () => {
             </Typography>
 
             <div className="pokemon_details_types">
-              {details?.types.map((type) => (
-                <Chip
-                  key={type.type.name}
-                  label={type.type.name.toUpperCase()}
-                  sx={{
-                    backgroundColor: "red",
-                    color: "white",
-                    height: "2.25rem",
-                    px: "0.5rem",
-                  }}
-                />
-              ))}
+              {details?.types.map((type) => {
+                const typeColor = typeColorConfigs[type.type.name];
+
+                console.log(typeColor);
+
+                return (
+                  <Chip
+                    key={type.type.name}
+                    label={type.type.name.toUpperCase()}
+                    sx={{
+                      backgroundColor: typeColor
+                        ? typeColor
+                        : typeColorConfigs["default"],
+                      color: "white",
+                      height: "2.25rem",
+                      px: "0.5rem",
+                    }}
+                  />
+                );
+              })}
             </div>
           </div>
         </section>
