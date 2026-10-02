@@ -6,32 +6,10 @@ import BarChart from "./BarChart";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import { loremIpsum } from "lorem-ipsum";
-
-interface StatsConfigsType {
-  [key: string]: {
-    label: string;
-    max: number;
-  };
-}
-
-const sliderSettings = {
-  dots: true,
-  infinite: true,
-  slidesToShow: 1,
-  slidesToScroll: 1,
-};
-
-const statsConfigs: StatsConfigsType = {
-  hp: { label: "HP", max: 200 },
-  attack: { label: "ATK", max: 150 },
-  defense: { label: "DEF", max: 200 },
-  speed: { label: "SPD", max: 150 },
-};
+import { sliderSettings, statsConfigs } from "../config/pokemonConfig";
 
 const PokemonDetails = () => {
   const { favorites, toggleFavorite, details, setDetails } = useAppContext();
-
-  console.log("details", details);
 
   return (
     <section className="pokemon_details">
