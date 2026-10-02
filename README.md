@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Make sure to run `npm install` to install all packages.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Try out this project by running `git clone https://github.com/dannyfrelink/pokemon.git` in your terminal. Make sure to run `npm install` to install all packages.
 
 ## Available Scripts
 
