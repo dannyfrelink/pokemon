@@ -98,8 +98,6 @@ const PokemonDetails = () => {
               {details?.types.map((type) => {
                 const typeColor = typeColorConfigs[type.type.name];
 
-                console.log(typeColor);
-
                 return (
                   <Chip
                     key={type.type.name}
